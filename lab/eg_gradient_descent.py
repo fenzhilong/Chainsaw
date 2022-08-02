@@ -17,4 +17,3 @@ for epoch in range(epoch):
     w.assign_sub(lr * grads)
     print(epoch, w.numpy(), loss)
 print(time.time() - t1)
-#
