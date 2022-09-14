@@ -1,5 +1,7 @@
 import tensorflow as tf
 from tensorflow import keras
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 class TextRnn(keras.Model):
@@ -28,8 +30,6 @@ class TextRnn(keras.Model):
         self.bilstm = keras.layers.Bidirectional(keras.layers.LSTM(self.hidden_size, return_sequences=True), merge_mode='concat')
         self.dropout = keras.layers.Dropout(self.dropout_rate, noise_shape=None, seed=None)
         self.lstm = keras.layers.LSTM(self.hidden_size)
-
-        self.flatten = keras.layers.Flatten(name='flatten')
         self.dense = keras.layers.Dense(units=self.num_classes, activation=tf.nn.softmax)
 
     def call(self, inputs, training=None, mask=None):
@@ -37,7 +37,6 @@ class TextRnn(keras.Model):
         output = self.bilstm(embedding)
         output = self.lstm(output)
         output = self.dropout(output)
-        output = self.flatten(output)
         output = self.dense(output)
         return output
 

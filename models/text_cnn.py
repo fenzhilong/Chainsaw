@@ -1,6 +1,8 @@
 import tensorflow as tf
 from tensorflow import keras
 from layers.priori_embedding import PrioriEmbedding
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 class TextCnn(keras.Model):
