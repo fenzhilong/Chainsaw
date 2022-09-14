@@ -1,4 +1,5 @@
 from models.text_cnn import TextCnn
+from models.text_rnn import TextRnn
 from data_processor import *
 import time
 
@@ -35,6 +36,13 @@ if __name__ == "__main__":
         num_classes=14,
         sequence_length=600
     )
-    model = LabTextClassification(text_cnn_model)
+    text_rnn_model = TextRnn(
+        vocab_size=20000,
+        embedding_dim=128,
+        hidden_size=100,
+        num_classes=14,
+        sequence_length=600
+    )
+    model = LabTextClassification(text_rnn_model)
     model.train()
     model.predict()
