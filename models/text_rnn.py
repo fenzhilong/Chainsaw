@@ -4,7 +4,7 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
-class TextRnn(keras.Model):
+class TextRNN(keras.Model):
     def __init__(
             self,
             vocab_size,
@@ -23,11 +23,12 @@ class TextRnn(keras.Model):
 
         if dropout_rate is None:
             self.dropout_rate = 0.3
-        super(TextRnn, self).__init__()
+        super(TextRNN, self).__init__()
 
         # self.embedding = PrioriEmbedding(self.embedding_dim, "data/self_embedding.pkl", name='embedding')
         self.embedding = keras.layers.Embedding(self.vocab_size, self.embedding_dim)
-        self.bilstm = keras.layers.Bidirectional(keras.layers.LSTM(self.hidden_size, return_sequences=True), merge_mode='concat')
+        self.bilstm = keras.layers.Bidirectional(
+            keras.layers.LSTM(self.hidden_size, return_sequences=True), merge_mode='concat')
         self.dropout = keras.layers.Dropout(self.dropout_rate, noise_shape=None, seed=None)
         self.lstm = keras.layers.LSTM(self.hidden_size)
         self.dense = keras.layers.Dense(units=self.num_classes, activation=tf.nn.softmax)

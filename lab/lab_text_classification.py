@@ -1,5 +1,6 @@
-from models.text_cnn import TextCnn
-from models.text_rnn import TextRnn
+from models.text_cnn import TextCNN
+from models.text_rnn import TextRNN
+from models.text_rcnn import TextRCNN
 from data_processor import *
 import time
 
@@ -29,20 +30,28 @@ class LabTextClassification:
 
 
 if __name__ == "__main__":
-    text_cnn_model = TextCnn(
+    text_cnn_model = TextCNN(
         vocab_size=20000,
         embedding_dim=100,
         num_filters=128,
         num_classes=14,
         sequence_length=600
     )
-    text_rnn_model = TextRnn(
+    text_rnn_model = TextRNN(
         vocab_size=20000,
         embedding_dim=128,
         hidden_size=100,
         num_classes=14,
         sequence_length=600
     )
-    model = LabTextClassification(text_rnn_model)
+    text_rcnn_model = TextRCNN(
+        vocab_size=20000,
+        embedding_dim=128,
+        rnn_hidden_size=100,
+        num_filters=150,
+        num_classes=14,
+        sequence_length=600
+    )
+    model = LabTextClassification(text_rcnn_model)
     model.train()
     model.predict()
