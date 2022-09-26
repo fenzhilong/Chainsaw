@@ -1,24 +1,29 @@
 from models.text_cnn import TextCNN
 from models.text_rnn import TextRNN
 from models.text_rcnn import TextRCNN
-from data_processor import *
+from models.han import HAN
+from data_process.data_processor import *
 import time
 
 
 class LabTextClassification:
     def __init__(self, model_instance):
         self.model = model_instance
+        if type(self.model) == HAN:
+            self.han_flag = True
+        else:
+            self.han_flag = False
 
     def train(self):
         self.model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
         t1 = time.time()
-        X_train, y_train = load_text_data(lines_train)
+        X_train, y_train = load_text_data(lines_train, han=self.han_flag)
 
         print("数据耗时", time.time() - t1)
         self.model.fit(X_train, y_train, batch_size=128, epochs=5)
 
     def predict(self):
-        X_test, y_test = load_text_data(lines_test)
+        X_test, y_test = load_text_data(lines_train, han=self.han_flag)
         score = self.model.evaluate(X_test, y_test)
         print('acc', score[1])
 
@@ -52,6 +57,14 @@ if __name__ == "__main__":
         num_classes=14,
         sequence_length=600
     )
-    model = LabTextClassification(text_rcnn_model)
+    han_model = HAN(
+        vocab_size=20000,
+        embedding_dim=128,
+        num_classes=14,
+        sentence_length=30,
+        doc_length=20,
+        hidden_size=100
+    )
+    model = LabTextClassification(han_model)
     model.train()
     model.predict()

@@ -39,7 +39,8 @@ def vocab(vocab_size=40000):
     return final_vocab
 
 
-vocab_list = [word.strip() for word in open("D:\CodePython\Chainsaw\data\cnews\cnews.vocab_word.txt", encoding="UTF-8").readlines()]
+vocab_list = [word.strip() for word in open(path_chainsaw +"/data/cnews/cnews.vocab_word.txt",
+                                            encoding="UTF-8").readlines()]
 # index2label = {
 #     0: 'constellation', 1: 'game', 2: 'affairs', 3: 'stock', 4: 'house', 5: 'science', 6: 'ent',
 #     7: 'sports', 8: 'edu', 9: 'fashion', 10: 'economic', 11: 'home', 12: 'lottery'
@@ -49,7 +50,7 @@ index2label = {index: label for index, label in enumerate(labels)}
 label2index = {label: index for index, label in index2label.items()}
 
 
-def load_text_data(lines_data, vocab_size=20000):
+def load_text_data(lines_data, vocab_size=20000, sentence_len=30, doc_len=20, han=False):
     index2word = {0: "padding", 1: "unknown"}
     if len(vocab_list) > vocab_size:
         final_vocab = vocab_list[:vocab_size]
@@ -63,8 +64,12 @@ def load_text_data(lines_data, vocab_size=20000):
         text_and_label = line.split("\t")
         # text = re.split(r"\s+", text_and_label[0].strip())
         # label = re.split(r"__", text_and_label[1].strip())
-        text = jieba.cut(text_and_label[1].strip())
-        label = text_and_label[0].strip()
+        try:
+            text = jieba.cut(text_and_label[1].strip())
+            label = text_and_label[0].strip()
+        except Exception as e:
+            print(e)
+            continue
         x = []
         for word in text:
             if word in word2index:
@@ -73,6 +78,7 @@ def load_text_data(lines_data, vocab_size=20000):
                 x.append(word2index["unknown"])
         X.append(x)
         Y.append(label2index[label])
-    X = keras.preprocessing.sequence.pad_sequences(X, padding='post', maxlen=600, dtype='int32')
+    X = keras.preprocessing.sequence.pad_sequences(X, padding='post', maxlen=sentence_len * doc_len, dtype='int32')
+    if han is True:
+        X = tf.reshape(X, shape=[-1, doc_len, sentence_len])
     return tf.convert_to_tensor(X), tf.one_hot(indices=Y, depth=len(label2index))
-

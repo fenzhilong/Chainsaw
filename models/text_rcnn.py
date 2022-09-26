@@ -22,7 +22,7 @@ class TextRCNN(keras.Model):
         self.num_filters = num_filters
         self.num_classes = num_classes
         self.sequence_length = sequence_length
-        self.kernel_size = 1
+        self.kernel_size = kernel_size
         self.dropout_rate = dropout_rate
 
         if dropout_rate is None:
