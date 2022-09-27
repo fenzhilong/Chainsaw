@@ -39,8 +39,6 @@ class HAN(keras.Model):
             keras.layers.LSTM(self.hidden_size, return_sequences=True), merge_mode='concat')
         self.attention_sentence = HanAttention()
 
-        self.flatten = keras.layers.Flatten()
-
         self.dense = keras.layers.Dense(units=self.num_classes, activation=tf.nn.softmax)
         self.dropout = keras.layers.Dropout(self.dropout_rate, noise_shape=None, seed=None)
 

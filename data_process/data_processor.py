@@ -6,8 +6,6 @@ from tensorflow import keras
 import pyjieba as jieba
 from tqdm import tqdm
 from utils.path_helper import path_chainsaw
-# lines_train = open("D:/CodePython/Chainsaw/data/classification/train.txt", encoding="UTF-8").readlines()
-# lines_test = open("D:/CodePython/Chainsaw//data/classification/test.txt", encoding="UTF-8").readlines()
 
 lines_train = open(path_chainsaw + "/data/cnews/cnews.train.txt", encoding="UTF-8").readlines()
 lines_val = open(path_chainsaw + "/data/cnews/cnews.val.txt", encoding="UTF-8").readlines()
@@ -39,12 +37,9 @@ def vocab(vocab_size=40000):
     return final_vocab
 
 
-vocab_list = [word.strip() for word in open(path_chainsaw +"/data/cnews/cnews.vocab_word.txt",
-                                            encoding="UTF-8").readlines()]
-# index2label = {
-#     0: 'constellation', 1: 'game', 2: 'affairs', 3: 'stock', 4: 'house', 5: 'science', 6: 'ent',
-#     7: 'sports', 8: 'edu', 9: 'fashion', 10: 'economic', 11: 'home', 12: 'lottery'
-# }
+vocab_list = [word.strip() for word in
+              open(path_chainsaw +"/data/cnews/cnews.vocab_word.txt", encoding="UTF-8").readlines()]
+
 labels = ["体育", "娱乐", "家居", "彩票", "房产", "教育", "时尚", "时政", "星座", "游戏", "社会", "科技", "股票", "财经"]
 index2label = {index: label for index, label in enumerate(labels)}
 label2index = {label: index for index, label in index2label.items()}
