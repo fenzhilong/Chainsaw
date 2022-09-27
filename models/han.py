@@ -1,5 +1,6 @@
 import tensorflow as tf
-from tensorflow import keras
+import keras
+from keras import layers
 from layers.han_attention import HanAttention
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
@@ -39,8 +40,8 @@ class HAN(keras.Model):
             keras.layers.LSTM(self.hidden_size, return_sequences=True), merge_mode='concat')
         self.attention_sentence = HanAttention()
 
-        self.dense = keras.layers.Dense(units=self.num_classes, activation=tf.nn.softmax)
         self.dropout = keras.layers.Dropout(self.dropout_rate, noise_shape=None, seed=None)
+        self.dense = keras.layers.Dense(units=self.num_classes, activation=tf.nn.softmax)
 
     def word_encoder(self):
         inputs = keras.layers.Input(shape=(self.sentence_length, ))

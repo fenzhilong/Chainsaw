@@ -57,8 +57,6 @@ def load_text_data(lines_data, vocab_size=20000, sentence_len=30, doc_len=20, ha
     X, Y = [], []
     for line in tqdm(lines_data):
         text_and_label = line.split("\t")
-        # text = re.split(r"\s+", text_and_label[0].strip())
-        # label = re.split(r"__", text_and_label[1].strip())
         try:
             text = jieba.cut(text_and_label[1].strip())
             label = text_and_label[0].strip()

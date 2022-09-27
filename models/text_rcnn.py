@@ -1,5 +1,6 @@
 import tensorflow as tf
-from tensorflow import keras
+import keras
+from keras import layers
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 

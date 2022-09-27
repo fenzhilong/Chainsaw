@@ -1,5 +1,6 @@
 import tensorflow as tf
-from tensorflow import keras
+import keras
+from keras import layers
 
 
 class SoftAttentionMask(keras.layers.Layer):

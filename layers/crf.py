@@ -1,5 +1,6 @@
 import tensorflow as tf
-from tensorflow import keras
+import keras
+from keras import layers
 import tensorflow_addons as tfa
 import keras.backend as K
 
