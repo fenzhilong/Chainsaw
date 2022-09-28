@@ -45,7 +45,7 @@ index2label = {index: label for index, label in enumerate(labels)}
 label2index = {label: index for index, label in index2label.items()}
 
 
-def load_text_data(lines_data, vocab_size=20000, sentence_len=30, doc_len=20, han=False):
+def load_text_data(lines_data, vocab_size=20000, sentence_len=30, doc_len=20, max_len=600, han=False):
     index2word = {0: "padding", 1: "unknown"}
     if len(vocab_list) > vocab_size:
         final_vocab = vocab_list[:vocab_size]
@@ -71,7 +71,11 @@ def load_text_data(lines_data, vocab_size=20000, sentence_len=30, doc_len=20, ha
                 x.append(word2index["unknown"])
         X.append(x)
         Y.append(label2index[label])
-    X = keras.preprocessing.sequence.pad_sequences(X, padding='post', maxlen=sentence_len * doc_len, dtype='int32')
+
     if han is True:
+        X = keras.preprocessing.sequence.pad_sequences(X, padding='post', maxlen=sentence_len * doc_len, dtype='int32')
         X = tf.reshape(X, shape=[-1, doc_len, sentence_len])
+    else:
+        X = keras.preprocessing.sequence.pad_sequences(X, padding='post', maxlen=max_len, dtype='int32')
+
     return tf.convert_to_tensor(X), tf.one_hot(indices=Y, depth=len(label2index))

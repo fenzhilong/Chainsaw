@@ -19,7 +19,6 @@ class HAN(keras.Model):
     ):
         self.vocab_size = vocab_size
         self.embedding_dim = embedding_dim
-        self.doc_length = doc_length
         self.num_classes = num_classes
         self.sentence_length = sentence_length
         self.doc_length = doc_length
