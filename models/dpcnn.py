@@ -43,8 +43,8 @@ class DPCNN(keras.Model):
             self.num_filters, kernel_size=1, padding="same", kernel_regularizer=l2(),
             bias_regularizer=l2(), activation="linear")
 
-        self.cnn_blocks = [CNNBlock(num_filters=self.num_filters, kernel_size=self.kernel_size)
-                           for _ in range(num_layers)]
+        self.cnn_blocks = [
+            CNNBlock(num_filters=self.num_filters, kernel_size=self.kernel_size) for _ in range(num_layers)]
 
         self.global_pooling = keras.layers.GlobalMaxPooling1D()
         self.dense1 = keras.layers.Dense(units=self.hidden_size, activation="linear")
